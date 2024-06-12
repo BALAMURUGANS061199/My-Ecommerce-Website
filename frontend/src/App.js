@@ -6,15 +6,23 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './Components/pages/Home';
 import Login from './Components/pages/Login';
 import Signup from './Components/pages/Signup';
+import { useSelector } from 'react-redux';
+import NewProduct from './Components/pages/Newproduct';
 function App() {
+  const user =useSelector((state)=> state.user)
   return (
     <div className="App">
       <BrowserRouter>
         <Navigations />
         <Routes>
           <Route index element={<Home />} />
-          <Route path='/login' element={<Login/>} />
-          <Route path='/signup' element={<Signup/>} />
+          {!user && (
+            <>
+            <Route path='/login' element={<Login/>} />
+            <Route path='/signup' element={<Signup/>} />
+            </>
+          )}
+          <Route path='/new-product' element={<NewProduct />} />
           <Route path='*' element={<Home />} />
         </Routes>
       </BrowserRouter>

@@ -1,5 +1,5 @@
 const {Schema} = require('mongoose')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const mongoose = require('mongoose')
 const UserSchema = Schema({
     name:{
@@ -54,13 +54,23 @@ orders:[{
 },
 {minimize:false})
 
-UserSchema.statics.findByCredentials = async function(email,password){
-    const user = await User.findOne({email});
-    if(!user) throw new Error('Invalid  Credentials')
-        const isPassword = bcrypt.compareSync(password.user.password)
-    if(isPassword) return user;
-    throw new Error('Invalid Credentials')
-}
+// UserSchema.pre('save',async function(next){
+//     const user =this;
+//     if(!user.isModified('password')){
+//         return next();
+//     }
+//     try{
+// const salt =await bcrypt.genSalt(10)
+// user.password =await bcrypt.hash(user.password,salt);
+// next();
+//     }
+//     catch(err){next(err);}
+// })
+
+
+// UserSchema.methods.comparePassword =function(candidatepassword){
+//     return bcrypt.compare(candidatepassword,this.password)
+// }
 
 UserSchema.methods.toJSON =function(){
     const user = this;
@@ -70,19 +80,19 @@ UserSchema.methods.toJSON =function(){
 }
 
 
-UserSchema.pre('save',function(next){
-    const user = this;
-    if(!user.isModified('password')) return next();
+// UserSchema.pre('save',function(next){
+//     const user = this;
+//     if(!user.isModified('password')) return next();
 
-    bcrypt.genSalt(10,(err,salt)=>{
-        if(err) return next(err)
-        bcrypt.hash(user.password,salt, function(err,hash){
-            if(err) return next(err)
-            user.password = salt;
-        next();
-        })
-    })
-})
+//     bcrypt.genSalt(10,(err,salt)=>{
+//         if(err) return next(err)
+//         bcrypt.hash(user.password,salt, function(err,hash){
+//             if(err) return next(err)
+//             user.password = salt;
+//         next();
+//         })
+//     })
+// })
 
 UserSchema.pre('remove',function(next){
     this.model('Order').remove({owner:this._id},next)
