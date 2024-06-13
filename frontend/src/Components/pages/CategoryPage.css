@@ -1,0 +1,10 @@
+.category-page-container{
+    min-height: 50vh;
+}
+.category-banner-container{
+    height: 200px;
+    background-color: #182e39;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

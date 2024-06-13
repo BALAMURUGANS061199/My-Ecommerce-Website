@@ -6,10 +6,16 @@ import appApi from '../services/appApi'
 
 const initialState =[]
 const ProductSlice = createSlice({
-    name:'products',
+    name:'product',
     initialState: initialState,
-    reducers:{},
+    reducers:{
+        updateProducts:(state,action)=>{
+            return action.payload;
+        },
+
+    },
 })
 
+export const {updateProducts} = ProductSlice.actions;
 
 export default ProductSlice.reducer;

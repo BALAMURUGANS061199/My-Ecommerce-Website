@@ -52,14 +52,14 @@ import {thunk} from 'redux-thunk'; // Correct import
 // Reducers
 const reducer = combineReducers({
     user: UserSlice,
-    products: ProductSlice,
+    product: ProductSlice,
     [appAPI.reducerPath]: appAPI.reducer,
 });
 
 const persistConfig = {
     key: 'root',
     storage,
-    blacklist: [appAPI.reducerPath, 'products'], // Fixed typo: blackList -> blacklist
+    blacklist: [appAPI.reducerPath, 'product'], // Fixed typo: blackList -> blacklist
 };
 
 // Persist our Store

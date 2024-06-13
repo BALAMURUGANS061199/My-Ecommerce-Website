@@ -24,37 +24,30 @@ const NewProduct = () => {
     const navigate = useNavigate();
 
     const [imgToRemove, setImgToRemove] = useState(null);
-    const [image, setImage] = useState([]);
+    const [images, setImage] = useState([]);
     const [createProduct, { isError, error, isLoading, isSuccess }] = useCreateProductMutation();
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     createProduct(values);
-    // }
-
-
-    const handleRemoveTag=(imgobj)=>{
-        imgToRemove(imgobj.public_id)
-        axios.delete(`/images/${imgobj.public_id}/`).then((res)=>{
-            setImgToRemove(null)
-            setImage(prev =>prev.filter((img)=> img.public_id !== imgobj.public_id))
-        }).catch((e)=> console.log(e))
+    const handleRemoveTag = (imgObj) => {
+        setImgToRemove(imgObj.public_id);
+        axios.delete(`/images/${imgObj.public_id}/`).then((res) => {
+            setImgToRemove(null);
+            setImage((prev) => prev.filter((img) => img.public_id !== imgObj.public_id));
+        }).catch((e) => console.log(e));
     }
 
-
-
-    const handleSubmit=(e) =>{
+    const handleSubmit = (e) => {
         e.preventDefault();
-        if(!values){
-            return alert('Please Fill out the Fields')
+        if (Object.values(values).some(value => value === '')) {
+            return alert('Please fill out all fields');
         }
-        createProduct(...values,image).then(({data})=>{
-            setTimeout(()=>{
-                navigate('/')
-            },1500)
-        })
-    }
-    function showWidget() {
+        createProduct({ ...values, images: images }).then(({ data }) => {
+            setTimeout(() => {
+                navigate('/');
+            }, 1500);
+        }).catch(err => console.log(err));
+    };
+
+    const showWidget = () => {
         const widget = window.cloudinary.createUploadWidget(
             {
                 cloudName: "ddikij1of",
@@ -74,8 +67,9 @@ const NewProduct = () => {
             <Row>
                 <Col md={6} className='new-product__form_container'>
                     <Form style={{ width: '100%' }} onSubmit={handleSubmit}>
-                        <h1>Create new Product</h1>
-                        {isSuccess && <Alert variant='success'></Alert>}
+                        <h1 className='mt-4'>Create new Product</h1>
+                        {isSuccess && <Alert variant='success'>Product created successfully!</Alert>}
+                        {isError && <Alert variant='danger'>{error.data.message}</Alert>}
                         <Form.Group className='mb-3'>
                             <Form.Label>Enter Product Name</Form.Label>
                             <Form.Control
@@ -119,10 +113,10 @@ const NewProduct = () => {
                                 Upload Images
                             </Button>
                             <div className="images-preview-container">
-                                {image.map((image) => (
-                                    <div className="image-preview">
-                                        <img src={image.url} />
-                                        {imgToRemove != image.public_id && <i className="fa fa-times-circle" onClick={() => handleRemoveTag(image)}></i>}
+                                {images.map((img) => (
+                                    <div className="image-preview" key={img.public_id}>
+                                        <img src={img.url} alt="Uploaded" />
+                                        {imgToRemove !== img.public_id && <i className="fa fa-times-circle" onClick={() => handleRemoveTag(img)}></i>}
                                     </div>
                                 ))}
                             </div>
@@ -132,14 +126,12 @@ const NewProduct = () => {
                         </Form.Group>
                     </Form>
                 </Col>
-                <Col md={6} className='new-product__image_container'>
+                <Col md={6} className='new-product__image--container'>
                     {/* Add any additional content here */}
-
-
                 </Col>
             </Row>
         </Container>
-    )
+    );
 }
 
 export default NewProduct;

@@ -43,11 +43,22 @@ function Navigations() {
                       <NavDropdown.Item>Create Product</NavDropdown.Item>
                     </LinkContainer>
 
-                    <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.2">My-Orders</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.3">Cart</NavDropdown.Item>
                   </>
                 )}
-
+              {user && (
+                <LinkContainer>
+                <Nav.Link>
+                  <i className='fas fa-shopping-cart'></i>
+                  {user?.cart.count> 0 && (
+                    <span className='badge badge-warning' id='cartcount'>
+                      {user.cart.count}
+                    </span>
+                  )}
+                </Nav.Link>
+                </LinkContainer>
+              )}
                 {!user.isAdmin && (
                   <>
                     <LinkContainer to='/cart'>
