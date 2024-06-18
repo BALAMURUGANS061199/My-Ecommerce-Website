@@ -1,0 +1,10 @@
+ .toast-container {
+     position: absolute;
+     top: 0;
+     right: 0;
+ }
+
+ .logo {
+     width: 50px
+ }
+ 

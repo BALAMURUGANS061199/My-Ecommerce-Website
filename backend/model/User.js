@@ -35,7 +35,6 @@ const UserSchema = Schema({
         type:Boolean,
         default: false
     },
-
     cart:{
         type:Object,
         default:{

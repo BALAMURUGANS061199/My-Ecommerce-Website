@@ -1,0 +1,52 @@
+CartPage.css
+
+/* Ensure the container has a minimum height */
+.cart-container {
+    min-height: 95vh;
+    padding-top: 20px;
+  }
+  
+  /* Style for the heading */
+  .cart-container h1 {
+    padding-top: 20px;
+    font-size: 1.75rem;
+  }
+  
+  /* Table styles */
+  .cart-table {
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .cart-table thead th {
+    text-align: left;
+    padding: 10px;
+    background-color: #f8f9fa;
+  }
+  
+  .cart-table tbody td {
+    padding: 10px;
+    vertical-align: middle;
+  }
+  
+  /* Ensure the cart is displayed properly */
+  .cart-table tbody tr {
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .cart-table .fa-times {
+    color: red;
+    cursor: pointer;
+  }
+  
+  .alert-info {
+    margin-top: 20px;
+  }
+  
+  /* Ensure responsiveness */
+  @media (max-width: 767px) {
+    .cart-container h1 {
+      font-size: 1.5rem;
+    }
+  }
+  

@@ -4,75 +4,77 @@ import './Navigation.css';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/UserSlice';
-
 function Navigations() {
-  const user = useSelector(state => state.user);
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   function handleLogout() {
-    // dispatch(logout())
+    dispatch(logout());
   }
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
-        <LinkContainer to='/'>
+        <LinkContainer to="/">
           <Navbar.Brand>ECommerce</Navbar.Brand>
         </LinkContainer>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            {/* if No User*/}
+            {/* if No User */}
             {!user && (
-              <LinkContainer to='/login'>
+              <LinkContainer to="/login">
                 <Nav.Link>Login</Nav.Link>
               </LinkContainer>
             )}
 
-            {/* if User*/}
+            {/* if User */}
             {user && (
-              <NavDropdown title={`${user.email}`} id="basic-nav-dropdown">
-                {user.isAdmin && (
-                  <>
-                    <LinkContainer to='/Dashboard'>
-                      <NavDropdown.Item>Dashboard</NavDropdown.Item>
-                    </LinkContainer>
-
-                    <LinkContainer to='/new-product'>
-                      <NavDropdown.Item>Create Product</NavDropdown.Item>
-                    </LinkContainer>
-
-                    <NavDropdown.Item href="#action/3.2">My-Orders</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3">Cart</NavDropdown.Item>
-                  </>
-                )}
-              {user && (
-                <LinkContainer>
-                <Nav.Link>
-                  <i className='fas fa-shopping-cart'></i>
-                  {user?.cart.count> 0 && (
-                    <span className='badge badge-warning' id='cartcount'>
-                      {user.cart.count}
-                    </span>
+              <>
+                <NavDropdown title={`${user.email}`} id="basic-nav-dropdown">
+                  {user.isAdmin && (
+                    <>
+                      <LinkContainer to="/dashboard">
+                        <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/new-product">
+                        <NavDropdown.Item>Create Product</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/my-orders">
+                        <NavDropdown.Item>My Orders</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/cart">
+                        <NavDropdown.Item>Cart</NavDropdown.Item>
+                      </LinkContainer>
+                    </>
                   )}
-                </Nav.Link>
+                  {!user.isAdmin && (
+                    <>
+                      <LinkContainer to="/cart">
+                        <NavDropdown.Item>Cart</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/orders">
+                        <NavDropdown.Item>My Orders</NavDropdown.Item>
+                      </LinkContainer>
+                    </>
+                  )}
+                  <NavDropdown.Divider />
+                  <Button variant="danger" onClick={handleLogout} className="logout-btn">
+                    Logout
+                  </Button>
+                </NavDropdown>
+                <LinkContainer to="/cart">
+                  <Nav.Link>
+                    <i className="fas fa-shopping-cart"></i>
+                    {user?.cart.count > 0 && (
+                      <span className="badge" id="cartcount">
+                        {user.cart.count}
+                      </span>
+                    )}
+                  </Nav.Link>
                 </LinkContainer>
-              )}
-                {!user.isAdmin && (
-                  <>
-                    <LinkContainer to='/cart'>
-                      <NavDropdown.Item>Cart</NavDropdown.Item>
-                    </LinkContainer>
-
-                    <LinkContainer to='/orders'>
-                      <NavDropdown.Item>My Orders</NavDropdown.Item>
-                    </LinkContainer>
-                  </>
-                )}
-                <NavDropdown.Divider />
-                <Button variant='danger' onClick={handleLogout} className='logout-btn'>Logout</Button>
-              </NavDropdown>
+              </>
             )}
           </Nav>
         </Navbar.Collapse>

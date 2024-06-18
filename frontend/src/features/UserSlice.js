@@ -12,6 +12,10 @@ const UserSlice = createSlice({
     extraReducers:(builder) =>{
         builder.addMatcher(appAPI.endpoints.signup.matchFulfilled,(_,{payload})=> payload);
         builder.addMatcher(appAPI.endpoints.login.matchFulfilled,(_,{payload}) =>payload);
+        builder.addMatcher(appAPI.endpoints.AddToCart.matchFulfilled,(_,{payload}) =>payload);
+        builder.addMatcher(appAPI.endpoints.RemoveFromCart.matchFulfilled,(_,{payload}) =>payload);
+        builder.addMatcher(appAPI.endpoints.increaseCartProduct.matchFulfilled,(_,{payload}) =>payload);
+        builder.addMatcher(appAPI.endpoints.decreaseCartProduct.matchFulfilled,(_,{payload}) =>payload);
     }
 })
  

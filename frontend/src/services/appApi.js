@@ -32,7 +32,7 @@ export const appAPI = createApi({
         //add To cart
         AddToCart:builder.mutation({
             query:(cartinfo)=>({
-                url:'/product/cart',
+                url:'/product/add-to-cart',
                 body:cartinfo,
                 method:'POST',
             })
